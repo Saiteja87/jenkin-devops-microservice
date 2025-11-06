@@ -1,9 +1,11 @@
 //DECLARATIVE
-pipeline {
-    agent any
+pipeline{
+    // agent any
+    agent { docker { image 'maven:3.9.11'} }
     stages {
         stage('Build') {
             steps {
+                sh 'mvn --version'
                 echo "Build"
             }
         }
@@ -17,6 +19,19 @@ pipeline {
                 echo "Integration Test"
             }
         }
+    } 
+    
+    post {
+        always {
+            echo 'Im good, I run always'
+        }
+        success {
+            echo 'Im good, I donot run always'    
+        }
+        failure {
+            echo 'I run when you are successful'    
+        }
     }
 }
+
 
